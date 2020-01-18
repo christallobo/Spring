@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<bean id="student" class="com.lti.model.Student" scope="prototype">
+		<property name="rollNumber" value="1" />
+		<property name="studentName" value="Disha" />
+		<property name="studentScore" value="70.5" />
+		<property name="address" ref="address" />
+	</bean>
+
+	<bean id="address" class="com.lti.model.Address" scope="prototype">
+		<property name="addressId" value="10" />
+		<property name="city" value="Mumbai" />
+		<property name="pin" value="4002155" />
+	</bean>
+
+	<bean id="service" class="com.lti.service.StudentServiceImpl"
+		scope="singleton" lazy-init="default">
+		<property name="dao" ref="dao" />
+	</bean>
+
+	<bean id="dao" class="com.lti.dao.StudentDaoJdbcImpl" scope="singleton"
+		lazy-init="default">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+		scope="singleton" lazy-init="default">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" />
+		<property name="username" value="hr" />
+		<property name="password" value="hr" />
+	</bean>
+
+</beans>
